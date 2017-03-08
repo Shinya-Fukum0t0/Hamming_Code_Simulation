@@ -8,7 +8,7 @@ typedef void (*Channel_FnPtr)(int*, int*, double, int);
 typedef void (*Encoder_FnPtr)(int*, int*);
 typedef void (*Decoder_FnPtr)(int*, int*);
 
-double calc_FER_by_MCMC(double p, long num_of_trials, Encoder_FnPtr encoder, Decoder_FnPtr decoder, Channel_FnPtr channel) {
+double calc_FER_by_MC(double p, long num_of_trials, Encoder_FnPtr encoder, Decoder_FnPtr decoder, Channel_FnPtr channel) {
 	long num_of_frame_error = 0;
 	
 	for(int i = 1; i <= num_of_trials; ++i) {
@@ -33,7 +33,7 @@ double calc_FER_by_MCMC(double p, long num_of_trials, Encoder_FnPtr encoder, Dec
 
 void simulation(Encoder_FnPtr encoder, Decoder_FnPtr decoder, Channel_FnPtr channel, long num_of_trials) {
 	for(double p = 1.0; p > 1.0 / num_of_trials; p /= 2) {
-		double FER = calc_FER_by_MCMC(p, num_of_trials, encoder, decoder, channel);
+		double FER = calc_FER_by_MC(p, num_of_trials, encoder, decoder, channel);
 		if (FER < (1.0 / num_of_trials * 10))
 			break;
 		
